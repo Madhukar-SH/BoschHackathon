@@ -93,27 +93,27 @@ class SampleListener(Leap.Listener):
             #print("Midfing & Thumb",midfingangle-thumbangle)
             #print("Arm directionv" + str(arm.direction))
             #print()
-            v1=(x3-x1,y3-y1,z3-z1)
-            v2=(thumbx-x1,thumby-y1,thumbz-z1)
-            v3=sum(p*q for p,q in zip(v1, v2))
-            v3=v3/(math.sqrt(v1[0]**2+v1[1]**2+v1[2]**2)*math.sqrt(v2[0]**2+v2[1]**2+v2[2]**2))
-            p=(1-v3)*90*1.5
-            if(p>90):
-                p=90
-            a = math.degrees(math.atan((arm.direction[1]/(-arm.direction[2]))*1.2)) + 30
-            if(a<30):
-                a=30
-            b = math.degrees(math.atan((y3-y2)/(z2-z3)))
-            br=math.degrees(math.atan(-(arm.direction[0]/arm.direction[2])*1.2)) + 90
+            v1 = (x3 - x1,y3 - y1,z3 - z1)
+            v2 = (thumbx - x1,thumby - y1,thumbz - z1)
+            v3 = sum(p * q for p,q in zip(v1, v2))
+            v3 = v3 / (math.sqrt(v1[0]**2 + v1[1]**2 + v1[2]**2) * math.sqrt(v2[0]**2 + v2[1]**2 + v2[2]**2))
+            p = (1 - v3) * 90 * 1.5
+            if(p > 90):
+                p = 90
+            a = math.degrees(math.atan((arm.direction[1] / (-arm.direction[2])) * 1.2)) + 30
+            if(a < 30):
+                a = 30
+            b = math.degrees(math.atan((y3 - y2)/(z2 - z3)))
+            br = math.degrees(math.atan(-(arm.direction[0] / arm.direction[2])*1.2)) + 90
             
             p = int(p)     #claw angle
-            p = p*0.66
+            p = p * 0.66
             p = 180 - p
 
-            a = a - 30     #ankle angle
-            a = a*1.2
+            a = a - 30     #hand angle
+            a = a * 1.2
 
-            br = 180-br    # base rotation
+            br = 180 - br    # base rotation
 
             data = "m " +str(int(a))+"\n"+ "o " +str(int((int(b-a)+70)*2))+"\n"+"l " +str(int(br)) + "\n" + "p " + str(int(p))+"\n"
             #o = ((b-a)+90)
@@ -145,16 +145,17 @@ var = True
 file_name = "record.txt"
 #raw_input('enter filename to save into :') + ".txt"
 f = open(file_name,'w')
+
 def foo(n):
     global controller
     global listener
-    if n=="q" :
+    if n == "q" :
         s.close()
         global var
         var = False
         controller.remove_listener(listener)
         sys.exit()
-    sender(n+"\n")
+    sender(n + "\n")
     print n
 
 def sender(data) :
@@ -163,6 +164,7 @@ def sender(data) :
     print data
     s.send(data.encode('utf-8'))
     f.write(data)
+
 def main():
     global controller
     global listener
